@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Application-Id: TPS01
+Application-Version: 0.1.0
+Application-PrintableName: TPS01
+Application-Description: TPS01
+Application-IconsDirectory: icons
+Application-Activities: moc.lab.MyActivity
+
+
