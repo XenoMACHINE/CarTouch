@@ -29,8 +29,9 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 	public static int screenHeight = 0;
 	public static int screenWidth = 0;
 
-	int centerX = 15;
-	int centerY = 15;
+	public static int playerX = 15;
+	public static int playerY = 15;
+	public static int playerRadius = 12;
 
 	boolean animated = true;
 	boolean initialized = false;
@@ -54,13 +55,12 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 
 		drawObstacles(g);
 
-		int radius = 5;
-		g.fillCircle(this.centerX - radius, this.centerY - radius, 10);
+		g.fillCircle(this.playerX - (this.playerRadius / 2), this.playerY - (this.playerRadius / 2), this.playerRadius);
 	}
 
 	public void initalisation(Rectangle bounds) {
-		this.centerX = bounds.getWidth() / 2;
-		this.centerY = bounds.getHeight() - 15;
+		this.playerX = bounds.getWidth() / 2;
+		this.playerY = bounds.getHeight() - 15;
 		this.screenHeight = bounds.getHeight();
 		this.screenWidth = bounds.getWidth();
 		ServiceLoaderFactory.getServiceLoader().getService(Animator.class, Animator.class).startAnimation(this);
@@ -92,9 +92,17 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 
 	@Override
 	public boolean tick(long currentTimeMillis) {
-		// Supprime les obstacles hors ecran
+
 		for (int i = 0; i < this.obstacles.size(); i++) {
+			// Fais avancer les obstacles
 			this.obstacles.get(i).increment();
+
+			// Gestion des colisions
+			if (this.obstacles.get(i).hasColision()) {
+				this.animated = false;
+			}
+
+			// Supprime les obstacles hors ecran
 			if (!this.obstacles.get(i).isAvailable()) {
 				this.obstacles.remove(i);
 				i--;
@@ -113,7 +121,7 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 		// TODO Auto-generated method stub
 		if (Event.getType(event) == Event.POINTER) {
 			Pointer ptr = (Pointer) Event.getGenerator(event);
-			this.centerX = ptr.getX();
+			this.playerX = ptr.getX();
 			return true;
 		}
 		return super.handleEvent(event);

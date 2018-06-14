@@ -26,7 +26,7 @@ public class Obstacle {
 
 	public Obstacle() {
 		this.x = (int) (Math.random() * GameWidget.screenHeight);
-		this.y = -(this.height + 20);
+		this.y = -(this.height);
 	}
 
 	public int getX() {
@@ -64,6 +64,16 @@ public class Obstacle {
 				this.available = false;
 			}
 		}
+	}
+
+	public boolean hasColision() {
+		int x = GameWidget.playerX - (GameWidget.playerRadius / 2);
+		int y = GameWidget.playerY - (GameWidget.playerRadius / 2);
+		if (x >= this.x && x <= (this.x + this.width) && y >= this.y && y <= (this.y + this.height)) {
+			return true;
+		}
+
+		return false;
 	}
 
 }
