@@ -16,8 +16,8 @@ public class Obstacle {
 	int x, y;
 	int width = 30;
 	int height = 55;
-	int speed = 5;
 
+	int speed = (int) (Math.random() * 15) + 5;
 	boolean available = true; // is on screen or not
 
 	/*
@@ -25,7 +25,7 @@ public class Obstacle {
 	 */
 
 	public Obstacle() {
-		this.x = (int) (Math.random() * GameWidget.screenHeight);
+		this.x = (int) (Math.random() * (GameWidget.screenWidth - this.width));
 		this.y = -(this.height);
 	}
 
@@ -80,6 +80,12 @@ public class Obstacle {
 		}
 
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "Obstacle [x=" + this.x + ", y=" + this.y + ", width=" + this.width + ", height=" + this.height
+				+ ", available=" + this.available + "]";
 	}
 
 }

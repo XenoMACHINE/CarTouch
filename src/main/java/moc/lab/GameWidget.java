@@ -31,12 +31,16 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 
 	public static int playerX = 15;
 	public static int playerY = 15;
-	public static int playerRadius = 12;
+	public static int playerRadius = 20;
 
 	boolean animated = true;
 	boolean initialized = false;
 
 	int timer = 0;
+
+	double increasedPercentage = 0.025;
+	double timeInterval = 15;
+	int maxTimeInterval = 5; // TODO Change selon lvl
 
 	ArrayList<Obstacle> obstacles = new ArrayList<>();
 
@@ -69,12 +73,44 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 	}
 
 	public void newObstacles() {
-		// TODO Changer selon niveaux
-		if (this.obstacles.size() < 3 && this.timer > 20) {
-			this.obstacles.add(new Obstacle());
-
+		if (this.timer > this.timeInterval) {
+			if (this.timeInterval > this.maxTimeInterval) {
+				this.timeInterval -= (this.timeInterval * this.increasedPercentage);
+				System.out.println(this.timeInterval + "  ----  " + (this.timeInterval * this.increasedPercentage));
+			}
+			Obstacle newObstacle = new Obstacle();
+			// Évite les superpositions
+			int nbAttempts = 0;
+			while (this.obstaclesAlreadyAtX(newObstacle) && nbAttempts < 10) { // max 10 tentative, évite infinite loop
+				// System.out.println("\ntry again\n");
+				nbAttempts++;
+				newObstacle.setX((int) (Math.random() * GameWidget.screenHeight));
+			}
+			if (nbAttempts < 10) {
+				this.obstacles.add(newObstacle);
+			}
+			// System.out.println("\n----------------\n");
 			this.timer = 0;
 		}
+	}
+
+	public boolean obstaclesAlreadyAtX(Obstacle newObstacle) {
+		int xLeft = newObstacle.getX();
+		int xRight = newObstacle.getX() + newObstacle.getWidth();
+		// System.out.println("newObstacle x : " + xLeft + " and " + xRight);
+
+		for (Obstacle obstacle : this.obstacles) {
+			// System.out.print(" - " + obstacle.getX());
+			// System.out.println(" to " + (obstacle.getX() + obstacle.getWidth()));
+			if (xLeft >= obstacle.getX() && xLeft <= (obstacle.getX() + obstacle.getWidth())) {
+				return true;
+			}
+			if (xRight >= obstacle.getX() && xRight <= (obstacle.getX() + obstacle.getWidth())) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public void drawObstacles(GraphicsContext g) {
