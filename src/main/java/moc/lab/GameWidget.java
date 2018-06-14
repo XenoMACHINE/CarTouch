@@ -6,6 +6,8 @@
  */
 package moc.lab;
 
+import java.util.ArrayList;
+
 import ej.animation.Animation;
 import ej.animation.Animator;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
@@ -17,11 +19,15 @@ import ej.microui.util.EventHandler;
 import ej.style.Style;
 import ej.style.container.Rectangle;
 import ej.widget.StyledWidget;
+import moc.lab.models.Obstacle;
 
 /**
  *
  */
 public class GameWidget extends StyledWidget implements Animation, EventHandler {
+
+	public static int screenHeight = 0;
+	public static int screenWidth = 0;
 
 	int centerX = 15;
 	int centerY = 15;
@@ -29,26 +35,52 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 	boolean animated = true;
 	boolean initialized = false;
 
+	int timer = 0;
+
+	ArrayList<Obstacle> obstacles = new ArrayList<>();
+
 	public GameWidget() {
 		// TODO Auto-generated constructor stub
-		ServiceLoaderFactory.getServiceLoader().getService(Animator.class, Animator.class).startAnimation(this);
 	}
 
 	@Override
 	public void renderContent(GraphicsContext g, Style style, Rectangle bounds) {
 		// TODO Auto-generated method stub
 		g.setColor(Colors.NAVY);
-		int radius = 5;
 
 		if (!this.initialized) {
-			this.centerX = bounds.getWidth() / 2;
-			this.centerY = bounds.getHeight() - 15;
-			this.initialized = true;
+			this.initalisation(bounds);
 		}
 
-		g.drawRect(15, 100, 40, 100);
+		drawObstacles(g);
 
+		int radius = 5;
 		g.fillCircle(this.centerX - radius, this.centerY - radius, 10);
+	}
+
+	public void initalisation(Rectangle bounds) {
+		this.centerX = bounds.getWidth() / 2;
+		this.centerY = bounds.getHeight() - 15;
+		this.screenHeight = bounds.getHeight();
+		this.screenWidth = bounds.getWidth();
+		ServiceLoaderFactory.getServiceLoader().getService(Animator.class, Animator.class).startAnimation(this);
+
+		this.initialized = true;
+	}
+
+	public void newObstacles() {
+		// TODO Changer selon niveaux
+		if (this.obstacles.size() < 3 && this.timer > 20) {
+			this.obstacles.add(new Obstacle());
+
+			this.timer = 0;
+		}
+	}
+
+	public void drawObstacles(GraphicsContext g) {
+		for (Obstacle obstacle : this.obstacles) {
+			g.drawRect(obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight());
+		}
 	}
 
 	@Override
@@ -60,11 +92,20 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 
 	@Override
 	public boolean tick(long currentTimeMillis) {
-		// TODO Auto-generated method stub
-		repaint();
-		// this.centerX += 1;
-		return this.animated;
+		// Supprime les obstacles hors ecran
+		for (int i = 0; i < this.obstacles.size(); i++) {
+			this.obstacles.get(i).increment();
+			if (!this.obstacles.get(i).isAvailable()) {
+				this.obstacles.remove(i);
+				i--;
+			}
+		}
 
+		this.timer += 1;
+		this.newObstacles();
+
+		repaint();
+		return this.animated;
 	}
 
 	@Override
