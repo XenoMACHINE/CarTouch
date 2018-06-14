@@ -73,6 +73,12 @@ public class Obstacle {
 			return true;
 		}
 
+		x = GameWidget.playerX + (GameWidget.playerRadius / 2);
+		y = GameWidget.playerY + (GameWidget.playerRadius / 2);
+		if (x >= this.x && x <= (this.x + this.width) && y >= this.y && y <= (this.y + this.height)) {
+			return true;
+		}
+
 		return false;
 	}
 
