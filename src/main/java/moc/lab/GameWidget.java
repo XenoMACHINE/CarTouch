@@ -6,11 +6,7 @@
  */
 package moc.lab;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 
 import ej.animation.Animation;
@@ -76,8 +72,6 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 			this.playerRadius = this.turtleImage.getWidth();
 		} catch (IOException e) {
 		}
-
-		System.out.println(getScores());
 	}
 
 	@Override
@@ -102,39 +96,8 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 		} else {
 			g.drawImage(this.bloodImage, this.playerX - (this.bloodImage.getWidth() / 2),
 					this.playerY - (this.bloodImage.getWidth() / 2), GraphicsContext.LEFT);
-			writeScoreInStorage();
+			StorageManager.getInstance().writeScoreInStorage();
 		}
-	}
-
-	public void writeScoreInStorage() {
-		String key = "score";
-		try (ByteArrayInputStream bais = new ByteArrayInputStream((getScores() + "," + PlayPage.score).getBytes())) { //$NON-NLS-1$
-			this.storage.store(key, bais);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public String getScores() {
-		try (InputStream stream = this.storage.load("score")) {
-			final int bufferSize = 1024;
-			final char[] buffer = new char[bufferSize];
-			final StringBuilder out = new StringBuilder();
-			Reader in = new InputStreamReader(stream, "UTF-8");
-			for (;;) {
-				int rsz = in.read(buffer, 0, buffer.length);
-				if (rsz < 0) {
-					break;
-				}
-				out.append(buffer, 0, rsz);
-			}
-			return out.toString();
-			// Do something with the input stream.
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return "";
 	}
 
 	public void initalisation(GraphicsContext g, Rectangle bounds) {
