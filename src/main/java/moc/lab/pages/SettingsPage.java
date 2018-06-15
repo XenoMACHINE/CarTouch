@@ -12,6 +12,8 @@ import ej.widget.container.List;
 import ej.widget.container.Split;
 import ej.widget.listener.OnClickListener;
 import ej.widget.navigation.page.Page;
+import moc.lab.GameWidget;
+import moc.lab.GameWidget.Level;
 import moc.lab.MyActivity;
 
 /**
@@ -61,6 +63,30 @@ public class SettingsPage extends Page {
 		this.back.addOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick() {
+				MyActivity.transition.show(new MainPage(), false);
+			}
+		});
+
+		this.easyMode.addOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick() {
+				GameWidget.level = Level.EASY;
+				MyActivity.transition.show(new MainPage(), false);
+			}
+		});
+
+		this.normalMode.addOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick() {
+				GameWidget.level = Level.MEDIUM;
+				MyActivity.transition.show(new MainPage(), false);
+			}
+		});
+
+		this.hardMode.addOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick() {
+				GameWidget.level = Level.HARD;
 				MyActivity.transition.show(new MainPage(), false);
 			}
 		});

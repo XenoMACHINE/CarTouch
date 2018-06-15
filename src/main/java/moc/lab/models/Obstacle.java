@@ -95,14 +95,14 @@ public class Obstacle {
 	}
 
 	public boolean hasColision() {
-		int x = GameWidget.playerX - (GameWidget.playerRadius / 2);
-		int y = GameWidget.playerY - (GameWidget.playerRadius / 2);
+		int x = GameWidget.playerX;
+		int y = GameWidget.playerY;
 		if (x >= this.x && x <= (this.x + this.width) && y >= this.y && y <= (this.y + this.height)) {
 			return true;
 		}
 
-		x = GameWidget.playerX + (GameWidget.playerRadius / 2);
-		y = GameWidget.playerY + (GameWidget.playerRadius / 2);
+		x = GameWidget.playerX + GameWidget.playerWidth;
+		y = GameWidget.playerY + GameWidget.playerHeight;
 		if (x >= this.x && x <= (this.x + this.width) && y >= this.y && y <= (this.y + this.height)) {
 			return true;
 		}

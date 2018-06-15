@@ -59,7 +59,7 @@ public class StorageManager {
 				}
 				out.append(buffer, 0, rsz);
 			}
-			System.out.println(out);
+			// System.out.println(out);
 			return out.toString();
 			// Do something with the input stream.
 		} catch (IOException e) {

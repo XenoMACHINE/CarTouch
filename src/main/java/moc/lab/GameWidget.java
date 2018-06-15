@@ -25,17 +25,21 @@ import ej.widget.StyledWidget;
 import moc.lab.models.Obstacle;
 import moc.lab.pages.PlayPage;
 
-/**
- *
- */
 public class GameWidget extends StyledWidget implements Animation, EventHandler {
 
+	public static enum Level {
+		EASY, MEDIUM, HARD
+	}
+
+	public static Level level = Level.EASY;
 	public static int screenHeight = 0;
 	public static int screenWidth = 0;
 
 	public static int playerX = 15;
 	public static int playerY = 15;
 	public static int playerRadius = 20;
+	public static int playerWidth = 0;
+	public static int playerHeight = 0;
 
 	public static Image carImage;
 	public static Image tankImage;
@@ -65,11 +69,27 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 			this.carImage = Image.createImage("/images/car.png");
 			this.tankImage = Image.createImage("/images/tank.png");
 			this.planeImage = Image.createImage("/images/spaceShip.png");
-			this.turtleImage = Image.createImage("/images/normalTurtle.png");
 			this.bloodImage = Image.createImage("/images/hardBlood.png");
 			this.background = Image.createImage("/images/background.png");
 
+			switch (level) {
+			case MEDIUM:
+				this.turtleImage = Image.createImage("/images/normalTurtle.png");
+				break;
+
+			case HARD:
+				this.turtleImage = Image.createImage("/images/hardTurtle.png");
+				break;
+
+			default:
+				this.turtleImage = Image.createImage("/images/easyTurtle.png");
+				break;
+			}
+
 			this.playerRadius = this.turtleImage.getWidth();
+			this.playerWidth = this.turtleImage.getWidth();
+			this.playerHeight = this.turtleImage.getHeight();
+
 		} catch (IOException e) {
 		}
 	}
@@ -89,20 +109,19 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 
 		// g.fillCircle(this.playerX - (this.playerRadius / 2), this.playerY - (this.playerRadius / 2),
 		// this.playerRadius);
+		// g.drawRect(this.playerX, this.playerY, this.turtleImage.getWidth(), this.turtleImage.getHeight());
 
 		if (this.animated) {
-			g.drawImage(this.turtleImage, this.playerX - (this.turtleImage.getWidth() / 2),
-					this.playerY - (this.turtleImage.getWidth() / 2), GraphicsContext.LEFT);
+			g.drawImage(this.turtleImage, this.playerX, this.playerY, GraphicsContext.LEFT);
 		} else {
-			g.drawImage(this.bloodImage, this.playerX - (this.bloodImage.getWidth() / 2),
-					this.playerY - (this.bloodImage.getWidth() / 2), GraphicsContext.LEFT);
+			g.drawImage(this.bloodImage, this.playerX - 10, this.playerY - 10, GraphicsContext.LEFT);
 			StorageManager.getInstance().writeScoreInStorage();
 		}
 	}
 
 	public void initalisation(GraphicsContext g, Rectangle bounds) {
-		this.playerX = bounds.getWidth() / 2;
-		this.playerY = bounds.getHeight() - 15;
+		this.playerX = (bounds.getWidth() / 2) - (this.turtleImage.getWidth() / 2);
+		this.playerY = bounds.getHeight() - (this.turtleImage.getHeight() + 5);
 		this.screenHeight = bounds.getHeight();
 		this.screenWidth = bounds.getWidth();
 		ServiceLoaderFactory.getServiceLoader().getService(Animator.class, Animator.class).startAnimation(this);
@@ -213,11 +232,11 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 		// TODO Auto-generated method stub
 		if (Event.getType(event) == Event.POINTER) {
 			Pointer ptr = (Pointer) Event.getGenerator(event);
-			int touchLimit = this.playerRadius + 10;
+			int touchLimit = this.turtleImage.getWidth() + 10;
 			if (ptr.getX() - this.playerX < touchLimit && ptr.getX() - this.playerX > -touchLimit) {
-				this.playerX = ptr.getX();
-				if (ptr.getY() - this.turtleImage.getHeight() * 2 > screenHeight / 2) {
-					this.playerY = ptr.getY() - this.turtleImage.getHeight() * 2;
+				this.playerX = ptr.getX() - (this.turtleImage.getWidth() / 2);
+				if (ptr.getY() > screenHeight / 2) {
+					this.playerY = ptr.getY() - 80;
 				}
 			}
 			return true;
