@@ -35,6 +35,10 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 	public static int playerY = 15;
 	public static int playerRadius = 20;
 
+	public static Image carImage;
+	public static Image tankImage;
+	public static Image planeImage;
+
 	boolean animated = true;
 	boolean initialized = false;
 
@@ -44,14 +48,14 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 	double timeInterval = 15;
 	int maxTimeInterval = 5; // TODO Change selon lvl
 
-	Image carImage;
-
 	ArrayList<Obstacle> obstacles = new ArrayList<>();
 
 	public GameWidget() {
 		// TODO Auto-generated constructor stub
 		try {
 			this.carImage = Image.createImage("/images/car.png");
+			this.tankImage = Image.createImage("/images/tank.png");
+			this.planeImage = Image.createImage("/images/spaceShip.png");
 		} catch (IOException e) {
 		}
 	}
@@ -86,6 +90,7 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 				this.timeInterval -= (this.timeInterval * this.increasedPercentage);
 				// System.out.println(this.timeInterval + " ---- " + (this.timeInterval * this.increasedPercentage));
 			}
+
 			Obstacle newObstacle = new Obstacle();
 			// Évite les superpositions
 			int nbAttempts = 0;
@@ -94,6 +99,7 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 				nbAttempts++;
 				newObstacle.setX((int) (Math.random() * GameWidget.screenHeight));
 			}
+
 			if (nbAttempts < 10) {
 				this.obstacles.add(newObstacle);
 			}
@@ -124,7 +130,21 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 	public void drawObstacles(GraphicsContext g) {
 		for (Obstacle obstacle : this.obstacles) {
 			g.drawRect(obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight());
-			g.drawImage(this.carImage, obstacle.getX(), obstacle.getY(), GraphicsContext.TOP | GraphicsContext.LEFT);
+			switch (obstacle.getTypeObs()) {
+			case CAR:
+				g.drawImage(this.carImage, obstacle.getX(), obstacle.getY(), GraphicsContext.LEFT);
+				break;
+			case TANK:
+				g.drawImage(this.tankImage, obstacle.getX(), obstacle.getY(), GraphicsContext.LEFT);
+				break;
+			case PLANE:
+				g.drawImage(this.planeImage, obstacle.getX(), obstacle.getY(), GraphicsContext.LEFT);
+				break;
+
+			default:
+				g.drawImage(this.carImage, obstacle.getX(), obstacle.getY(), GraphicsContext.LEFT);
+				break;
+			}
 		}
 	}
 
