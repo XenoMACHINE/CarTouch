@@ -6,6 +6,9 @@
  */
 package moc.lab.pages;
 
+import ej.animation.Animation;
+import ej.animation.Animator;
+import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.mwt.Widget;
 import ej.widget.basic.Label;
 import ej.widget.composed.ButtonWrapper;
@@ -18,12 +21,13 @@ import moc.lab.MyActivity;
 /**
  *
  */
-public class PlayPage extends Page implements OnClickListener {
+public class PlayPage extends Page implements OnClickListener, Animation {
 
+	public static int score = 0;
 	Split container = new Split(false, 0.2f);
 	Split containerTitle = new Split(true, 0.8f);
 
-	Label playTitle = new Label("Score  :  0");
+	Label playTitle = new Label("Score : " + score);
 	Label titleBackBtn = new Label("X");
 
 	ButtonWrapper backBtn = new ButtonWrapper();
@@ -32,6 +36,7 @@ public class PlayPage extends Page implements OnClickListener {
 
 	public PlayPage() {
 		// TODO Auto-generated constructor stub
+		ServiceLoaderFactory.getServiceLoader().getService(Animator.class, Animator.class).startAnimation(this);
 
 		this.playTitle.addClassSelector("TITLE");
 		this.titleBackBtn.addClassSelector("LABELBAR");
@@ -54,6 +59,12 @@ public class PlayPage extends Page implements OnClickListener {
 		MyActivity.transition.show(new MainPage(), false);
 	}
 
-	// setWidget(this.container);
+	@Override
+	public boolean tick(long currentTimeMillis) {
+		// TODO Auto-generated method stub
+		this.playTitle.setText("Score : " + score);
+		return true;
+	}
 
+	// setWidget(this.container);
 }
