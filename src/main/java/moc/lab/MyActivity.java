@@ -32,18 +32,31 @@ public class MyActivity implements Activity {
 
 	public static TransitionContainer transition;
 
+	public static final int black = 0x2f2f2f;
+	public static final int blue = 0xbae1ff;
+	public static final int green = 0xbaffc9;
+	public static final int orange = 0xffdfba;
+	public static final int red = 0xffb3ba;
+
+	public static final int gold = 0xeed117;
+
+	public static final int blueLabel = 0x1e4fbf;
+	public static final int greenLabel = 0x0daf57;
+	public static final int orangeLabel = 0xf57a1b;
+	public static final int redLabel = 0xf5321b;
+
 	private void InitializeStyle() {
 		Stylesheet sts = StyleHelper.getStylesheet();
 
 		// BUTTON Style based on Label & Button classes
 		SimpleOutline btnMargin = new SimpleOutline(7);
-		SimpleRoundedPlainBackground backgroundButtons = new SimpleRoundedPlainBackground(20);
+		SimpleRoundedPlainBackground backgroundButtons = new SimpleRoundedPlainBackground(8);
 		SimpleRoundedPlainBackground backgroundButtonsBar = new SimpleRoundedPlainBackground(0);
 
 		// title
 		EditableStyle titleStyle = new EditableStyle();
-		titleStyle.setForegroundColor(Colors.WHITE);
-		titleStyle.setBackgroundColor(Colors.BLACK);
+		titleStyle.setForegroundColor(gold);
+		titleStyle.setBackgroundColor(black);
 		ComplexRectangularBorder titleBorder = new ComplexRectangularBorder();
 		titleStyle.setBorder(titleBorder);
 		titleStyle.setAlignment(GraphicsContext.HCENTER | GraphicsContext.VCENTER);
@@ -53,8 +66,8 @@ public class MyActivity implements Activity {
 		btnBlueStyle.setMargin(btnMargin);
 		btnBlueStyle.setPadding(btnMargin);
 		btnBlueStyle.setBackground(backgroundButtons);
-		btnBlueStyle.setBackgroundColor(Colors.NAVY);
-		btnBlueStyle.setForegroundColor(Colors.WHITE);
+		btnBlueStyle.setBackgroundColor(blue);
+		btnBlueStyle.setForegroundColor(blueLabel);
 		btnBlueStyle.setAlignment(GraphicsContext.HCENTER | GraphicsContext.VCENTER);
 
 		// green button
@@ -62,32 +75,32 @@ public class MyActivity implements Activity {
 		btnGreenStyle.setMargin(btnMargin);
 		btnGreenStyle.setPadding(btnMargin);
 		btnGreenStyle.setBackground(backgroundButtons);
-		btnGreenStyle.setBackgroundColor(Colors.GREEN);
-		btnGreenStyle.setForegroundColor(Colors.WHITE);
+		btnGreenStyle.setBackgroundColor(green);
+		btnGreenStyle.setForegroundColor(greenLabel);
 		btnGreenStyle.setAlignment(GraphicsContext.HCENTER | GraphicsContext.VCENTER);
 
-		// yellow button
-		EditableStyle btnYellowStyle = new EditableStyle();
-		btnYellowStyle.setMargin(btnMargin);
-		btnYellowStyle.setPadding(btnMargin);
-		btnYellowStyle.setBackground(backgroundButtons);
-		btnYellowStyle.setBackgroundColor(Colors.PURPLE);
-		btnYellowStyle.setForegroundColor(Colors.WHITE);
-		btnYellowStyle.setAlignment(GraphicsContext.HCENTER | GraphicsContext.VCENTER);
+		// orange button
+		EditableStyle btnOrangeStyle = new EditableStyle();
+		btnOrangeStyle.setMargin(btnMargin);
+		btnOrangeStyle.setPadding(btnMargin);
+		btnOrangeStyle.setBackground(backgroundButtons);
+		btnOrangeStyle.setBackgroundColor(orange);
+		btnOrangeStyle.setForegroundColor(orangeLabel);
+		btnOrangeStyle.setAlignment(GraphicsContext.HCENTER | GraphicsContext.VCENTER);
 
 		// red button
 		EditableStyle btnRedStyle = new EditableStyle();
 		btnRedStyle.setMargin(btnMargin);
 		btnRedStyle.setPadding(btnMargin);
 		btnRedStyle.setBackground(backgroundButtons);
-		btnRedStyle.setBackgroundColor(Colors.RED);
-		btnRedStyle.setForegroundColor(Colors.WHITE);
+		btnRedStyle.setBackgroundColor(red);
+		btnRedStyle.setForegroundColor(redLabel);
 		btnRedStyle.setAlignment(GraphicsContext.HCENTER | GraphicsContext.VCENTER);
 
 		// navigation bar button
 		EditableStyle btnBarStyle = new EditableStyle();
-		btnBarStyle.setBackgroundColor(Colors.BLACK);
-		btnBarStyle.setForegroundColor(Colors.WHITE);
+		btnBarStyle.setBackgroundColor(black);
+		btnBarStyle.setForegroundColor(redLabel);
 		btnBarStyle.setAlignment(GraphicsContext.HCENTER | GraphicsContext.VCENTER);
 
 		// navigation bar button red
@@ -111,10 +124,10 @@ public class MyActivity implements Activity {
 		ClassSelector labelGreenSelector = new ClassSelector("LABELGREEN");
 		ChildCombinator parentsGreen = new ChildCombinator(btnGreenSelector, labelGreenSelector);
 
-		// yellow
-		ClassSelector btnYellowSelector = new ClassSelector("BTNYELLOW");
-		ClassSelector labelYellowSelector = new ClassSelector("LABELYELLOW");
-		ChildCombinator parentsYellow = new ChildCombinator(btnYellowSelector, labelYellowSelector);
+		// orange
+		ClassSelector btnOrangeSelector = new ClassSelector("BTNORANGE");
+		ClassSelector labelOrangeSelector = new ClassSelector("LABELORANGE");
+		ChildCombinator parentsOrange = new ChildCombinator(btnOrangeSelector, labelOrangeSelector);
 
 		// red
 		ClassSelector btnRedSelector = new ClassSelector("BTNRED");
@@ -133,7 +146,7 @@ public class MyActivity implements Activity {
 
 		sts.addRule(parentsBlue, btnBlueStyle);
 		sts.addRule(parentsGreen, btnGreenStyle);
-		sts.addRule(parentsYellow, btnYellowStyle);
+		sts.addRule(parentsOrange, btnOrangeStyle);
 		sts.addRule(parentsRed, btnRedStyle);
 		sts.addRule(parentsBar, btnBarStyle);
 		sts.addRule(parentsBarRed, btnBarRedStyle);

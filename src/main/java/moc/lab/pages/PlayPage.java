@@ -20,24 +20,30 @@ import moc.lab.MyActivity;
  */
 public class PlayPage extends Page implements OnClickListener {
 
-	Split container = new Split(true, 0.85f);
+	Split container = new Split(false, 0.2f);
+	Split containerTitle = new Split(true, 0.8f);
+
+	Label playTitle = new Label("Score  :  0");
+	Label titleBackBtn = new Label("X");
 
 	ButtonWrapper backBtn = new ButtonWrapper();
-
-	Label titleBackBtn = new Label("X");
 
 	Widget gameWidget = new GameWidget();
 
 	public PlayPage() {
 		// TODO Auto-generated constructor stub
 
-		this.container.setFirst(this.gameWidget);
-		this.container.setLast(this.backBtn);
+		this.playTitle.addClassSelector("TITLE");
+		this.titleBackBtn.addClassSelector("LABELBAR");
 
-		this.backBtn.addClassSelector("BTNRED");
-		this.titleBackBtn.addClassSelector("LABELRED");
+		this.backBtn.addClassSelector("BTNBAR");
 		this.backBtn.setWidget(this.titleBackBtn);
 		this.backBtn.addOnClickListener(this);
+
+		this.containerTitle.setFirst(this.playTitle);
+		this.containerTitle.setLast(this.backBtn);
+		this.container.setFirst(this.containerTitle);
+		this.container.setLast(this.gameWidget);
 
 		setWidget(this.container);
 	}

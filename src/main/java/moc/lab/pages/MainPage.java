@@ -23,39 +23,41 @@ public class MainPage extends Page {
 
 	List Btnlist = new List(false);
 
+	Label mainTitle = new Label("CarTouch");
+	Label titlePlay = new Label("JOUER");
+	Label titleScore = new Label("SCORE");
+	Label titleSettings = new Label("SETTINGS");
+	Label titleExit = new Label("X");
+
+	ButtonWrapper play = new ButtonWrapper();
+	ButtonWrapper score = new ButtonWrapper();
+	ButtonWrapper settings = new ButtonWrapper();
+	ButtonWrapper exit = new ButtonWrapper();
+
 	public MainPage() {
 
 		this.container = new Split(false, (float) 0.2);
 		this.containerTitle = new Split(true, (float) 0.8);
 
-		Label title = new Label("CarTouch");
-		title.addClassSelector("TITLE");
+		this.mainTitle.addClassSelector("TITLE");
+		this.titlePlay.addClassSelector("LABELBLUE");
+		this.titleScore.addClassSelector("LABELBLUE");
+		this.titleSettings.addClassSelector("LABELBLUE");
+		this.titleExit.addClassSelector("LABELBAR");
 
-		ButtonWrapper play = new ButtonWrapper();
-		play.addClassSelector("BTNBLUE");
-		Label titlePlay = new Label("JOUER");
-		titlePlay.addClassSelector("LABELBLUE");
-		play.setWidget(titlePlay);
+		this.play.addClassSelector("BTNBLUE");
+		this.play.setWidget(this.titlePlay);
 
-		ButtonWrapper score = new ButtonWrapper();
-		score.addClassSelector("BTNBLUE");
-		Label titleScore = new Label("SCORE");
-		titleScore.addClassSelector("LABELBLUE");
-		score.setWidget(titleScore);
+		this.score.addClassSelector("BTNBLUE");
+		this.score.setWidget(this.titleScore);
 
-		ButtonWrapper settings = new ButtonWrapper();
-		settings.addClassSelector("BTNBLUE");
-		Label titleSettings = new Label("SETTINGS");
-		titleSettings.addClassSelector("LABELBLUE");
-		settings.setWidget(titleSettings);
+		this.settings.addClassSelector("BTNBLUE");
+		this.settings.setWidget(this.titleSettings);
 
-		ButtonWrapper exit = new ButtonWrapper();
-		exit.addClassSelector("BTNBARRED");
-		Label titleExit = new Label("X");
-		titleExit.addClassSelector("LABELBARRED");
-		exit.setWidget(titleExit);
+		this.exit.addClassSelector("BTNBAR");
+		this.exit.setWidget(this.titleExit);
 
-		play.addOnClickListener(new OnClickListener() {
+		this.play.addOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick() {
@@ -64,7 +66,7 @@ public class MainPage extends Page {
 			}
 		});
 
-		score.addOnClickListener(new OnClickListener() {
+		this.score.addOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick() {
@@ -73,7 +75,7 @@ public class MainPage extends Page {
 			}
 		});
 
-		settings.addOnClickListener(new OnClickListener() {
+		this.settings.addOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick() {
@@ -82,7 +84,7 @@ public class MainPage extends Page {
 			}
 		});
 
-		exit.addOnClickListener(new OnClickListener() {
+		this.exit.addOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick() {
@@ -95,11 +97,11 @@ public class MainPage extends Page {
 			}
 		});
 
-		this.Btnlist.add(play);
-		this.Btnlist.add(score);
-		this.Btnlist.add(settings);
-		this.containerTitle.setFirst(title);
-		this.containerTitle.setLast(exit);
+		this.Btnlist.add(this.play);
+		this.Btnlist.add(this.score);
+		this.Btnlist.add(this.settings);
+		this.containerTitle.setFirst(this.mainTitle);
+		this.containerTitle.setLast(this.exit);
 		this.container.setFirst(this.containerTitle);
 		this.container.setLast(this.Btnlist);
 		setWidget(this.container);

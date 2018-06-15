@@ -24,50 +24,52 @@ public class SettingsPage extends Page {
 
 	List Btnlist = new List(false);
 
+	Label settingsTitle = new Label("Settings");
+	Label titleEasyMode = new Label("EASY");
+	Label titleNormalMode = new Label("NORMAL");
+	Label titleHardMode = new Label("HARD");
+	Label titleBack = new Label("X");
+
+	ButtonWrapper easyMode = new ButtonWrapper();
+	ButtonWrapper normalMode = new ButtonWrapper();
+	ButtonWrapper hardMode = new ButtonWrapper();
+	ButtonWrapper back = new ButtonWrapper();
+
 	public SettingsPage() {
 
 		this.containerSettings = new Split(false, (float) 0.2);
 		this.containerTitleSettings = new Split(true, (float) 0.8);
 
-		Label settingsTitle = new Label("Settings");
-		settingsTitle.addClassSelector("TITLE");
+		this.settingsTitle.addClassSelector("TITLE");
+		this.titleEasyMode.addClassSelector("LABELGREEN");
+		this.titleNormalMode.addClassSelector("LABELORANGE");
+		this.titleHardMode.addClassSelector("LABELRED");
+		this.titleBack.addClassSelector("LABELBAR");
 
-		ButtonWrapper easyMode = new ButtonWrapper();
-		easyMode.addClassSelector("BTNGREEN");
-		Label titleEasyMode = new Label("EASY");
-		titleEasyMode.addClassSelector("LABELGREEN");
-		easyMode.setWidget(titleEasyMode);
+		this.easyMode.addClassSelector("BTNGREEN");
+		this.easyMode.setWidget(this.titleEasyMode);
 
-		ButtonWrapper normalMode = new ButtonWrapper();
-		normalMode.addClassSelector("BTNBLUE");
-		Label titleNormalMode = new Label("NORMAL");
-		titleNormalMode.addClassSelector("LABELBLUE");
-		normalMode.setWidget(titleNormalMode);
+		this.normalMode.addClassSelector("BTNORANGE");
+		this.normalMode.setWidget(this.titleNormalMode);
 
-		ButtonWrapper hardMode = new ButtonWrapper();
-		hardMode.addClassSelector("BTNRED");
-		Label titleHardMode = new Label("HARD");
-		titleHardMode.addClassSelector("LABELRED");
-		hardMode.setWidget(titleHardMode);
+		this.hardMode.addClassSelector("BTNRED");
+		this.hardMode.setWidget(this.titleHardMode);
 
-		ButtonWrapper back = new ButtonWrapper();
-		back.addClassSelector("BTNBAR");
-		Label titleBack = new Label("<-");
-		titleBack.addClassSelector("LABELBAR");
-		back.setWidget(titleBack);
+		this.back.addClassSelector("BTNBAR");
+		this.back.setWidget(this.titleBack);
 
-		back.addOnClickListener(new OnClickListener() {
+		this.back.addOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick() {
 				MyActivity.transition.show(new MainPage(), false);
 			}
 		});
 
-		this.Btnlist.add(easyMode);
-		this.Btnlist.add(normalMode);
-		this.Btnlist.add(hardMode);
-		this.containerTitleSettings.setFirst(settingsTitle);
-		this.containerTitleSettings.setLast(back);
+		this.Btnlist.add(this.easyMode);
+		this.Btnlist.add(this.normalMode);
+		this.Btnlist.add(this.hardMode);
+		this.containerTitleSettings.setFirst(this.settingsTitle);
+		this.containerTitleSettings.setLast(this.back);
 		this.containerSettings.setFirst(this.containerTitleSettings);
 		this.containerSettings.setLast(this.Btnlist);
 		setWidget(this.containerSettings);
