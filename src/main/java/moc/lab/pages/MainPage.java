@@ -25,7 +25,7 @@ public class MainPage extends Page {
 
 	Label mainTitle = new Label("CarTouch");
 	Label titlePlay = new Label("JOUER");
-	Label titleScore = new Label("SCORE");
+	Label titleScore = new Label("SCORES");
 	Label titleSettings = new Label("SETTINGS");
 	Label titleExit = new Label("X");
 

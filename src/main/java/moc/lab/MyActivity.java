@@ -17,10 +17,12 @@ import ej.style.background.SimpleRoundedPlainBackground;
 import ej.style.border.ComplexRectangularBorder;
 import ej.style.outline.SimpleOutline;
 import ej.style.selector.ClassSelector;
+import ej.style.selector.TypeSelector;
 import ej.style.selector.combinator.ChildCombinator;
 import ej.style.util.EditableStyle;
 import ej.style.util.StyleHelper;
 import ej.wadapps.app.Activity;
+import ej.widget.container.List;
 import ej.widget.container.transition.SlideScreenshotTransitionContainer;
 import ej.widget.container.transition.TransitionContainer;
 import moc.lab.pages.MainPage;
@@ -144,7 +146,10 @@ public class MyActivity implements Activity {
 		ClassSelector labelBarRedSelector = new ClassSelector("LABELBARRED");
 		ChildCombinator parentsBarRed = new ChildCombinator(btnBarRedSelector, labelBarRedSelector);
 
+		TypeSelector listSelector = new TypeSelector(List.class);
+
 		sts.addRule(parentsBlue, btnBlueStyle);
+		sts.addRule(listSelector, btnBlueStyle);
 		sts.addRule(parentsGreen, btnGreenStyle);
 		sts.addRule(parentsOrange, btnOrangeStyle);
 		sts.addRule(parentsRed, btnRedStyle);
