@@ -24,6 +24,8 @@ public class PlayPage extends Page implements OnClickListener {
 
 	ButtonWrapper backBtn = new ButtonWrapper();
 
+	Label titleBackBtn = new Label("X");
+
 	Widget gameWidget = new GameWidget();
 
 	public PlayPage() {
@@ -32,7 +34,9 @@ public class PlayPage extends Page implements OnClickListener {
 		this.container.setFirst(this.gameWidget);
 		this.container.setLast(this.backBtn);
 
-		this.backBtn.setWidget(new Label("X"));
+		this.backBtn.addClassSelector("BTNRED");
+		this.titleBackBtn.addClassSelector("LABELRED");
+		this.backBtn.setWidget(this.titleBackBtn);
 		this.backBtn.addOnClickListener(this);
 
 		setWidget(this.container);

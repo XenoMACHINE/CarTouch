@@ -33,16 +33,28 @@ public class SettingsPage extends Page {
 		settingsTitle.addClassSelector("TITLE");
 
 		ButtonWrapper easyMode = new ButtonWrapper();
-		easyMode.setWidget(new Label("EASY"));
+		easyMode.addClassSelector("BTNGREEN");
+		Label titleEasyMode = new Label("EASY");
+		titleEasyMode.addClassSelector("LABELGREEN");
+		easyMode.setWidget(titleEasyMode);
 
 		ButtonWrapper normalMode = new ButtonWrapper();
-		normalMode.setWidget(new Label("NORMAL"));
+		normalMode.addClassSelector("BTNBLUE");
+		Label titleNormalMode = new Label("NORMAL");
+		titleNormalMode.addClassSelector("LABELBLUE");
+		normalMode.setWidget(titleNormalMode);
 
 		ButtonWrapper hardMode = new ButtonWrapper();
-		hardMode.setWidget(new Label("HARD"));
+		hardMode.addClassSelector("BTNRED");
+		Label titleHardMode = new Label("HARD");
+		titleHardMode.addClassSelector("LABELRED");
+		hardMode.setWidget(titleHardMode);
 
 		ButtonWrapper back = new ButtonWrapper();
-		back.setWidget(new Label("<-"));
+		back.addClassSelector("BTNBAR");
+		Label titleBack = new Label("<-");
+		titleBack.addClassSelector("LABELBAR");
+		back.setWidget(titleBack);
 
 		back.addOnClickListener(new OnClickListener() {
 			@Override

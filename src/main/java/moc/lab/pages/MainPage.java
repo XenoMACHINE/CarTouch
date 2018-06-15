@@ -32,16 +32,28 @@ public class MainPage extends Page {
 		title.addClassSelector("TITLE");
 
 		ButtonWrapper play = new ButtonWrapper();
-		play.setWidget(new Label("JOUER"));
+		play.addClassSelector("BTNBLUE");
+		Label titlePlay = new Label("JOUER");
+		titlePlay.addClassSelector("LABELBLUE");
+		play.setWidget(titlePlay);
 
 		ButtonWrapper score = new ButtonWrapper();
-		score.setWidget(new Label("SCORE"));
+		score.addClassSelector("BTNBLUE");
+		Label titleScore = new Label("SCORE");
+		titleScore.addClassSelector("LABELBLUE");
+		score.setWidget(titleScore);
 
 		ButtonWrapper settings = new ButtonWrapper();
-		settings.setWidget(new Label("SETTINGS"));
+		settings.addClassSelector("BTNBLUE");
+		Label titleSettings = new Label("SETTINGS");
+		titleSettings.addClassSelector("LABELBLUE");
+		settings.setWidget(titleSettings);
 
 		ButtonWrapper exit = new ButtonWrapper();
-		exit.setWidget(new Label("EXIT"));
+		exit.addClassSelector("BTNBARRED");
+		Label titleExit = new Label("X");
+		titleExit.addClassSelector("LABELBARRED");
+		exit.setWidget(titleExit);
 
 		play.addOnClickListener(new OnClickListener() {
 
