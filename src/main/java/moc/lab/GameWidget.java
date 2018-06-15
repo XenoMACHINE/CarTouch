@@ -6,6 +6,7 @@
  */
 package moc.lab;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import ej.animation.Animation;
@@ -13,6 +14,7 @@ import ej.animation.Animator;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.microui.display.Colors;
 import ej.microui.display.GraphicsContext;
+import ej.microui.display.Image;
 import ej.microui.event.Event;
 import ej.microui.event.generator.Pointer;
 import ej.microui.util.EventHandler;
@@ -42,10 +44,16 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 	double timeInterval = 15;
 	int maxTimeInterval = 5; // TODO Change selon lvl
 
+	Image carImage;
+
 	ArrayList<Obstacle> obstacles = new ArrayList<>();
 
 	public GameWidget() {
 		// TODO Auto-generated constructor stub
+		try {
+			this.carImage = Image.createImage("/images/car.png");
+		} catch (IOException e) {
+		}
 	}
 
 	@Override
@@ -76,7 +84,7 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 		if (this.timer > this.timeInterval) {
 			if (this.timeInterval > this.maxTimeInterval) {
 				this.timeInterval -= (this.timeInterval * this.increasedPercentage);
-				System.out.println(this.timeInterval + "  ----  " + (this.timeInterval * this.increasedPercentage));
+				// System.out.println(this.timeInterval + " ---- " + (this.timeInterval * this.increasedPercentage));
 			}
 			Obstacle newObstacle = new Obstacle();
 			// Évite les superpositions
@@ -116,6 +124,7 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 	public void drawObstacles(GraphicsContext g) {
 		for (Obstacle obstacle : this.obstacles) {
 			g.drawRect(obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight());
+			g.drawImage(this.carImage, obstacle.getX(), obstacle.getY(), GraphicsContext.TOP | GraphicsContext.LEFT);
 		}
 	}
 
@@ -157,7 +166,10 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 		// TODO Auto-generated method stub
 		if (Event.getType(event) == Event.POINTER) {
 			Pointer ptr = (Pointer) Event.getGenerator(event);
-			this.playerX = ptr.getX();
+			int touchLimit = this.playerRadius + 10;
+			if (ptr.getX() - this.playerX < touchLimit && ptr.getX() - this.playerX > -touchLimit) {
+				this.playerX = ptr.getX();
+			}
 			return true;
 		}
 		return super.handleEvent(event);
