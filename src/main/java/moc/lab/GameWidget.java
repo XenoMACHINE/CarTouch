@@ -76,7 +76,7 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 		if (this.timer > this.timeInterval) {
 			if (this.timeInterval > this.maxTimeInterval) {
 				this.timeInterval -= (this.timeInterval * this.increasedPercentage);
-				System.out.println(this.timeInterval + "  ----  " + (this.timeInterval * this.increasedPercentage));
+				// System.out.println(this.timeInterval + " ---- " + (this.timeInterval * this.increasedPercentage));
 			}
 			Obstacle newObstacle = new Obstacle();
 			// Évite les superpositions
@@ -157,7 +157,10 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 		// TODO Auto-generated method stub
 		if (Event.getType(event) == Event.POINTER) {
 			Pointer ptr = (Pointer) Event.getGenerator(event);
-			this.playerX = ptr.getX();
+			int touchLimit = this.playerRadius + 10;
+			if (ptr.getX() - this.playerX < touchLimit && ptr.getX() - this.playerX > -touchLimit) {
+				this.playerX = ptr.getX();
+			}
 			return true;
 		}
 		return super.handleEvent(event);
