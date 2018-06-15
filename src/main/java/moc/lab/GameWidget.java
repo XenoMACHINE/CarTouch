@@ -39,6 +39,10 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 	public static Image tankImage;
 	public static Image planeImage;
 
+	Image turtleImage;
+	Image bloodImage;
+	Image background;
+
 	boolean animated = true;
 	boolean initialized = false;
 
@@ -56,6 +60,11 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 			this.carImage = Image.createImage("/images/car.png");
 			this.tankImage = Image.createImage("/images/tank.png");
 			this.planeImage = Image.createImage("/images/spaceShip.png");
+			this.turtleImage = Image.createImage("/images/normalTurtle.png");
+			this.bloodImage = Image.createImage("/images/hardBlood.png");
+			this.background = Image.createImage("/images/background.png");
+
+			this.playerRadius = this.turtleImage.getWidth();
 		} catch (IOException e) {
 		}
 	}
@@ -66,15 +75,26 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 		g.setColor(Colors.NAVY);
 
 		if (!this.initialized) {
-			this.initalisation(bounds);
+			this.initalisation(g, bounds);
 		}
+
+		g.drawImage(this.background, 0, 0, GraphicsContext.LEFT);
 
 		drawObstacles(g);
 
-		g.fillCircle(this.playerX - (this.playerRadius / 2), this.playerY - (this.playerRadius / 2), this.playerRadius);
+		// g.fillCircle(this.playerX - (this.playerRadius / 2), this.playerY - (this.playerRadius / 2),
+		// this.playerRadius);
+
+		if (this.animated) {
+			g.drawImage(this.turtleImage, this.playerX - (this.turtleImage.getWidth() / 2),
+					this.playerY - (this.turtleImage.getWidth() / 2), GraphicsContext.LEFT);
+		} else {
+			g.drawImage(this.bloodImage, this.playerX - (this.bloodImage.getWidth() / 2),
+					this.playerY - (this.bloodImage.getWidth() / 2), GraphicsContext.LEFT);
+		}
 	}
 
-	public void initalisation(Rectangle bounds) {
+	public void initalisation(GraphicsContext g, Rectangle bounds) {
 		this.playerX = bounds.getWidth() / 2;
 		this.playerY = bounds.getHeight() - 15;
 		this.screenHeight = bounds.getHeight();
@@ -129,7 +149,7 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 
 	public void drawObstacles(GraphicsContext g) {
 		for (Obstacle obstacle : this.obstacles) {
-			g.drawRect(obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight());
+			// g.drawRect(obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight());
 			switch (obstacle.getTypeObs()) {
 			case CAR:
 				g.drawImage(this.carImage, obstacle.getX(), obstacle.getY(), GraphicsContext.LEFT);

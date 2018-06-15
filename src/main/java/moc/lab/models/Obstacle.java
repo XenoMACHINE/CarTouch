@@ -41,6 +41,7 @@ public class Obstacle {
 			this.typeObs = TypeObs.TANK;
 			this.width = GameWidget.tankImage.getWidth();
 			this.height = GameWidget.tankImage.getHeight();
+			this.speed = (int) (Math.random() * 8) + 2;
 		} else {
 			this.typeObs = TypeObs.CAR;
 			this.width = GameWidget.carImage.getWidth();
