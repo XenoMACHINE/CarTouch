@@ -32,12 +32,28 @@ public class Obstacle {
 
 		int typeCarPercentage = (int) (Math.random() * 100);
 
-		if (typeCarPercentage < 15) {
+		int planePercentage = 0;
+		int tankPercentage = 0;
+
+		switch (GameWidget.level) {
+		case MEDIUM:
+			tankPercentage = 35;
+			break;
+
+		case HARD:
+			planePercentage = 15;
+			break;
+
+		default:
+			break;
+		}
+
+		if (typeCarPercentage < planePercentage) {
 			this.typeObs = TypeObs.PLANE;
 			this.width = GameWidget.planeImage.getWidth();
 			this.height = GameWidget.planeImage.getHeight();
 			this.speed = 15;
-		} else if (typeCarPercentage < 35) {
+		} else if (typeCarPercentage < tankPercentage) {
 			this.typeObs = TypeObs.TANK;
 			this.width = GameWidget.tankImage.getWidth();
 			this.height = GameWidget.tankImage.getHeight();

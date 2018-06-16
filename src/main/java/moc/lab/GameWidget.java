@@ -72,19 +72,7 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 			this.bloodImage = Image.createImage("/images/hardBlood.png");
 			this.background = Image.createImage("/images/background.png");
 
-			switch (level) {
-			case MEDIUM:
-				this.turtleImage = Image.createImage("/images/normalTurtle.png");
-				break;
-
-			case HARD:
-				this.turtleImage = Image.createImage("/images/hardTurtle.png");
-				break;
-
-			default:
-				this.turtleImage = Image.createImage("/images/easyTurtle.png");
-				break;
-			}
+			this.turtleImage = Image.createImage("/images/normalTurtle.png");
 
 			this.playerRadius = this.turtleImage.getWidth();
 			this.playerWidth = this.turtleImage.getWidth();
