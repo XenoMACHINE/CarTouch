@@ -102,7 +102,7 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 		if (this.animated) {
 			g.drawImage(this.turtleImage, this.playerX, this.playerY, GraphicsContext.LEFT);
 		} else {
-			g.drawImage(this.bloodImage, this.playerX - 10, this.playerY - 10, GraphicsContext.LEFT);
+			g.drawImage(this.bloodImage, this.playerX - 15, this.playerY - 25, GraphicsContext.LEFT);
 			StorageManager.getInstance().writeScoreInStorage();
 		}
 	}
