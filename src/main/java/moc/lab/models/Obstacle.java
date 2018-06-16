@@ -41,6 +41,7 @@ public class Obstacle {
 			break;
 
 		case HARD:
+			tankPercentage = 35;
 			planePercentage = 15;
 			break;
 
