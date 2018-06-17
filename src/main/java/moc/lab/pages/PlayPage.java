@@ -24,7 +24,7 @@ import moc.lab.MyActivity;
 public class PlayPage extends Page implements OnClickListener, Animation {
 
 	public static int score = 0;
-	Split container = new Split(false, 0.2f);
+	Split container = new Split(false, 0.1f);
 	Split containerTitle = new Split(true, 0.8f);
 
 	Label playTitle = new Label("Score : " + score);

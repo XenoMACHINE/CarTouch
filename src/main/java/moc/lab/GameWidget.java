@@ -225,7 +225,7 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 			if (ptr.getX() - this.playerX < touchLimit && ptr.getX() - this.playerX > -touchLimit) {
 				this.playerX = ptr.getX() - (this.turtleImage.getWidth() / 2);
 				if (ptr.getY() > screenHeight / 2) {
-					this.playerY = ptr.getY() - 80;
+					this.playerY = ptr.getY() - 50;
 				}
 			}
 			return true;
