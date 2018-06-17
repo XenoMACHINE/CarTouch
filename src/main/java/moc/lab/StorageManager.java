@@ -14,6 +14,7 @@ import java.io.Reader;
 
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.wadapps.storage.Storage;
+import moc.lab.GameWidget.Level;
 import moc.lab.pages.PlayPage;
 
 /**
@@ -37,17 +38,55 @@ public class StorageManager {
 		return storageManager;
 	}
 
-	public void writeScoreInStorage() {
+	public String getKey(GameWidget.Level level) {
 		String key = "score";
-		try (ByteArrayInputStream bais = new ByteArrayInputStream((getScores() + "," + PlayPage.score).getBytes())) { //$NON-NLS-1$
+		if (level == Level.MEDIUM) {
+			key += "medium";
+		}
+		if (level == Level.HARD) {
+			key += "hard";
+		}
+
+		return key;
+	}
+
+	public boolean hasKey(String key) {
+		boolean hasKey = false;
+
+		try {
+			for (String k : this.storage.getIds()) {
+				if (k.equals(key)) {
+					hasKey = true;
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return hasKey;
+	}
+
+	public void writeScoreInStorage(String key) {
+
+		String prefix = "";
+		if (hasKey(key)) {
+			prefix = getScores(key) + ",";
+		}
+
+		try (ByteArrayInputStream bais = new ByteArrayInputStream((prefix + PlayPage.score).getBytes())) {
 			this.storage.store(key, bais);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public String getScores() {
-		try (InputStream stream = this.storage.load("score")) {
+	public String getScores(String key) {
+
+		if (!hasKey(key)) {
+			return "";
+		}
+
+		try (InputStream stream = this.storage.load(key)) {
+
 			final int bufferSize = 1024;
 			final char[] buffer = new char[bufferSize];
 			final StringBuilder out = new StringBuilder();
@@ -59,7 +98,7 @@ public class StorageManager {
 				}
 				out.append(buffer, 0, rsz);
 			}
-			// System.out.println(out);
+			System.out.println(out);
 			return out.toString();
 			// Do something with the input stream.
 		} catch (IOException e) {
