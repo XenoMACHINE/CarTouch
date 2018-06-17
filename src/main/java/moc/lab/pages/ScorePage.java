@@ -165,6 +165,11 @@ public class ScorePage extends Page {
 			max = 10;
 		}
 
+		// Remplis 0 les cases vides (tjrs 10cases)
+		for (int i = max; i < 10; i++) {
+			this.scoresIntArray.add(new Integer(0));
+		}
+
 		if (list.getWidgets().length > 0) {
 			int i = 0;
 
