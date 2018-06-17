@@ -8,6 +8,7 @@ package moc.lab.pages;
 
 import java.util.ArrayList;
 
+import ej.mwt.Widget;
 import ej.widget.basic.Label;
 import ej.widget.composed.ButtonWrapper;
 import ej.widget.container.List;
@@ -16,6 +17,7 @@ import ej.widget.container.Split;
 import ej.widget.listener.OnClickListener;
 import ej.widget.navigation.page.Page;
 import moc.lab.GameWidget;
+import moc.lab.GameWidget.Level;
 import moc.lab.MyActivity;
 import moc.lab.StorageManager;
 
@@ -44,6 +46,7 @@ public class ScorePage extends Page {
 	ButtonWrapper back = new ButtonWrapper();
 	ArrayList<Integer> scoresIntArray = new ArrayList<>();
 
+	Level currentLevel = GameWidget.level;
 	String key = StorageManager.getInstance().getKey(GameWidget.level);
 	String scores = StorageManager.getInstance().getScores(this.key);
 
@@ -75,6 +78,7 @@ public class ScorePage extends Page {
 		this.easyMode.addOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick() {
+				ScorePage.this.currentLevel = Level.EASY;
 				ScorePage.this.key = StorageManager.getInstance().getKey(GameWidget.Level.EASY);
 				ScorePage.this.scores = StorageManager.getInstance().getScores(ScorePage.this.key);
 				refreshList();
@@ -84,6 +88,7 @@ public class ScorePage extends Page {
 		this.normalMode.addOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick() {
+				ScorePage.this.currentLevel = Level.MEDIUM;
 				ScorePage.this.key = StorageManager.getInstance().getKey(GameWidget.Level.MEDIUM);
 				ScorePage.this.scores = StorageManager.getInstance().getScores(ScorePage.this.key);
 				refreshList();
@@ -93,6 +98,7 @@ public class ScorePage extends Page {
 		this.hardMode.addOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick() {
+				ScorePage.this.currentLevel = Level.HARD;
 				ScorePage.this.key = StorageManager.getInstance().getKey(GameWidget.Level.HARD);
 				ScorePage.this.scores = StorageManager.getInstance().getScores(ScorePage.this.key);
 				refreshList();
@@ -121,7 +127,6 @@ public class ScorePage extends Page {
 		setWidget(this.containerScore);
 
 		this.back.addOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick() {
 				MyActivity.transition.show(new MainPage(), false);
@@ -130,7 +135,7 @@ public class ScorePage extends Page {
 	}
 
 	public void refreshList() {
-		this.list.removeAllWidgets();
+		// this.list.removeAllWidgets();
 		this.scoresIntArray.clear();
 		String tmp = "";
 		for (char c : this.scores.toCharArray()) {
@@ -159,17 +164,56 @@ public class ScorePage extends Page {
 		if (max > 10) {
 			max = 10;
 		}
-		for (int i = 0; i < max; i++) {
-			// for (Integer score : scoresIntArray) {
-			Label lbl = new Label("" + this.scoresIntArray.get(i));
-			lbl.addClassSelector("LABELBLUE");
-			ButtonWrapper btnList = new ButtonWrapper();
-			btnList.addClassSelector("BTNBLUE");
-			btnList.setWidget(lbl);
-			list.add(btnList);
+
+		if (list.getWidgets().length > 0) {
+			int i = 0;
+
+			for (Widget widget : list.getWidgets()) {
+				ButtonWrapper btn = (ButtonWrapper) widget;
+				for (Widget btnWidget : btn.getWidgets()) {
+					Label lbl = (Label) btnWidget;
+					if (i < this.scoresIntArray.size()) {
+						lbl.setText("" + this.scoresIntArray.get(i));
+						i += 1;
+					} else {
+						lbl.setText("");
+					}
+					setColor(lbl, btn);
+				}
+			}
+		} else {
+			for (int i = 0; i < max; i++) {
+				// for (Integer score : scoresIntArray) {
+				Label lbl = new Label("" + this.scoresIntArray.get(i));
+				ButtonWrapper btnList = new ButtonWrapper();
+				setColor(lbl, btnList);
+				btnList.setWidget(lbl);
+				list.add(btnList);
+			}
 		}
 
+		// scroll.setLocation(0, 0);
 		list.revalidate();
+	}
+
+	public void setColor(Label label, ButtonWrapper btn) {
+		switch (this.currentLevel) {
+		case EASY:
+			label.setClassSelectors("LABELGREEN");
+			btn.setClassSelectors("BTNGREEN");
+			break;
+		case MEDIUM:
+			label.setClassSelectors("LABELORANGE");
+			btn.setClassSelectors("BTNORANGE");
+			break;
+		case HARD:
+			label.setClassSelectors("LABELRED");
+			btn.setClassSelectors("BTNRED");
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	public void sortArray() {
