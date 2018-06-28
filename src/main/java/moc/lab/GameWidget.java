@@ -71,7 +71,7 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 		if (level == Level.MEDIUM) {
 			this.FLEX = 3;
 		} else if (level == Level.HARD) {
-			this.FLEX = 5;
+			this.FLEX = 4;
 		}
 
 		try {
