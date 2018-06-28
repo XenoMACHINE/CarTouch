@@ -55,6 +55,7 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 	Storage storage = ServiceLoaderFactory.getServiceLoader().getService(Storage.class);
 
 	int timer = 0;
+	int FLEX = 2;
 
 	double increasedPercentage = 0.025;
 	double timeInterval = 15;
@@ -67,6 +68,12 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 	public GameWidget() {
 		// TODO Auto-generated constructor stub
 		PlayPage.score = 0;
+		if (level == Level.MEDIUM) {
+			this.FLEX = 3;
+		} else if (level == Level.HARD) {
+			this.FLEX = 5;
+		}
+
 		try {
 			this.carImage = Image.createImage("/images/car.png");
 			this.tankImage = Image.createImage("/images/tank.png");
@@ -212,15 +219,13 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 
 		this.timer += 1;
 		PlayPage.score += 1;
-		// this.newObstacles();
+		this.newObstacles();
 
 		refreshPlayerPosition();
 		// System.out.println(this.playerXpositions.size());
 		repaint();
 		return this.animated;
 	}
-
-	final int FLEX = 5;
 
 	@Override
 	public boolean handleEvent(int event) {
@@ -239,7 +244,6 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 				setPlayerPosition(newPlayerX, newPlayerY);
 			}
 
-			repaint();
 			return true;
 		}
 		return super.handleEvent(event);
