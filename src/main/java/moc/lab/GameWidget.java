@@ -230,26 +230,34 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 			int newPlayerX = ptr.getX() - (this.turtleImage.getWidth() / 2);
 			int newPlayerY = ptr.getY() - 50;
 
-			int touchLimit = this.turtleImage.getWidth() + 20;
-			if (ptr.getX() - this.playerX < touchLimit && ptr.getX() - this.playerX > -touchLimit) {
-				if (this.playerXpositions.size() < this.FLEX) {
-					this.playerXpositions.add(new Integer(newPlayerX));
-					if (newPlayerY > screenHeight / 10) { // gestion limite en Y
-						this.playerYpositions.add(new Integer(newPlayerY));
-					} else {
-						Integer lastPlayerY = new Integer(this.playerY);
-						if (this.playerYpositions.size() > 0) {
-							lastPlayerY = this.playerYpositions.get(this.playerYpositions.size() - 1);
-						}
-						this.playerYpositions.add(lastPlayerY);
-					}
-					repaint();
+			int touchLimit = this.turtleImage.getWidth() + 10;
+			if (this.playerYpositions.size() == 0) {
+				if (ptr.getX() - this.playerX < touchLimit && ptr.getX() - this.playerX > -touchLimit) {
+					setPlayerPosition(newPlayerX, newPlayerY);
 				}
+			} else {
+				setPlayerPosition(newPlayerX, newPlayerY);
 			}
 
+			repaint();
 			return true;
 		}
 		return super.handleEvent(event);
+	}
+
+	public void setPlayerPosition(int newPlayerX, int newPlayerY) {
+		if (this.playerXpositions.size() < this.FLEX) {
+			this.playerXpositions.add(new Integer(newPlayerX));
+			if (newPlayerY > screenHeight / 10) { // gestion limite en Y
+				this.playerYpositions.add(new Integer(newPlayerY));
+			} else {
+				Integer lastPlayerY = new Integer(this.playerY);
+				if (this.playerYpositions.size() > 0) {
+					lastPlayerY = this.playerYpositions.get(this.playerYpositions.size() - 1);
+				}
+				this.playerYpositions.add(lastPlayerY);
+			}
+		}
 	}
 
 	public void refreshPlayerPosition() {
