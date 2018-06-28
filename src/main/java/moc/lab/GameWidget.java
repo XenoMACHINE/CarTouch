@@ -60,6 +60,8 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 	double timeInterval = 15;
 	int maxTimeInterval = 5; // TODO Change selon lvl
 
+	ArrayList<Integer> playerXpositions = new ArrayList<>();
+	ArrayList<Integer> playerYpositions = new ArrayList<>();
 	ArrayList<Obstacle> obstacles = new ArrayList<>();
 
 	public GameWidget() {
@@ -210,27 +212,54 @@ public class GameWidget extends StyledWidget implements Animation, EventHandler 
 
 		this.timer += 1;
 		PlayPage.score += 1;
-		this.newObstacles();
+		// this.newObstacles();
 
+		refreshPlayerPosition();
+		// System.out.println(this.playerXpositions.size());
 		repaint();
 		return this.animated;
 	}
+
+	final int FLEX = 5;
 
 	@Override
 	public boolean handleEvent(int event) {
 		// TODO Auto-generated method stub
 		if (Event.getType(event) == Event.POINTER) {
 			Pointer ptr = (Pointer) Event.getGenerator(event);
-			int touchLimit = this.turtleImage.getWidth() + 10;
+			int newPlayerX = ptr.getX() - (this.turtleImage.getWidth() / 2);
+			int newPlayerY = ptr.getY() - 50;
+
+			int touchLimit = this.turtleImage.getWidth() + 20;
 			if (ptr.getX() - this.playerX < touchLimit && ptr.getX() - this.playerX > -touchLimit) {
-				this.playerX = ptr.getX() - (this.turtleImage.getWidth() / 2);
-				if (ptr.getY() > screenHeight / 2) {
-					this.playerY = ptr.getY() - 50;
+				if (this.playerXpositions.size() < this.FLEX) {
+					this.playerXpositions.add(new Integer(newPlayerX));
+					if (newPlayerY > screenHeight / 10) { // gestion limite en Y
+						this.playerYpositions.add(new Integer(newPlayerY));
+					} else {
+						Integer lastPlayerY = new Integer(this.playerY);
+						if (this.playerYpositions.size() > 0) {
+							lastPlayerY = this.playerYpositions.get(this.playerYpositions.size() - 1);
+						}
+						this.playerYpositions.add(lastPlayerY);
+					}
+					repaint();
 				}
 			}
+
 			return true;
 		}
 		return super.handleEvent(event);
+	}
+
+	public void refreshPlayerPosition() {
+		// if (this.playerXpositions.size() > this.flexibility) {
+		if (this.playerXpositions.size() > 0) {
+			this.playerX = this.playerXpositions.get(0).intValue();
+			this.playerXpositions.remove(0);
+			this.playerY = this.playerYpositions.get(0).intValue();
+			this.playerYpositions.remove(0);
+		}
 	}
 
 }
